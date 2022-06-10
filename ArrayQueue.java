@@ -28,8 +28,8 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
             throw new QueueOverflowException();
         }
         else{
-            queue [rear] = (E) element;
-            if(rear == maxCapacity){
+            queue[rear] = (E) element;
+            if(rear == maxCapacity - 1){
                 rear = 0;
             }
             else{
@@ -47,7 +47,8 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
         }
         else{
             returnedElement = queue [front];
-            if(front == maxCapacity){
+            queue[front] = null;
+            if(front == maxCapacity - 1){
                 front = 0;
             }
             else{
@@ -82,25 +83,11 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     public ArrayQueue clone()  {
         ArrayQueue<E> clone;
         E element;
- //       Method deepClone = null;
+
         try{
-            /*
-          clone = (ArrayQueue<E>) super.clone();
-
-          for(int i=0; i < maxCapacity; i++){
-              if(queue[i] != null) {
-                  deepClone = queue[i].getClass().getMethod("clone");
-                  Object[] args = new Object[0];
-                  clone.setElement((E) deepClone.invoke(queue[i], args), i);
-              }
-              else {
-
-
-              }
-          }
-          return clone;
-             */
             clone = (ArrayQueue<E>) super.clone();
+            E[] newQueue = (E[]) new Cloneable[maxCapacity];
+            clone.setQueue(newQueue);
             for(int i = 0; i < maxCapacity; i++){
                 if(queue[i] != null){
                     element = (E) queue[i].getClass().getMethod("clone").invoke(queue[i]);
@@ -123,11 +110,9 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     public int getFront() {
         return front;
     }
-
     public int getRear() {
         return rear;
     }
-
     public int getMaxCapacity() {
         return maxCapacity;
     }
@@ -136,5 +121,11 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     }
     public void setElement(E element, int i){
         this.queue[i] = element;
+    }
+    public void setQueue(E[] queue){
+        this.queue = queue;
+    }
+    public int getNumberOfElements() {
+        return numberOfElements;
     }
 }
