@@ -1,3 +1,4 @@
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 public class ArrayQueue <E extends Cloneable> implements Queue{
@@ -23,19 +24,19 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     }
     @Override
     public void enqueue(Cloneable element) {
-     if(numberOfElements == maxCapacity){
-         throw new QueueOverflowException();
-     }
-     else{
-         queue [rear] = (E) element;
-         if(rear == maxCapacity){
-             rear = 0;
-         }
-         else{
-             rear++;
-         }
-         numberOfElements++;
-     }
+        if(numberOfElements == maxCapacity){
+            throw new QueueOverflowException();
+        }
+        else{
+            queue [rear] = (E) element;
+            if(rear == maxCapacity){
+                rear = 0;
+            }
+            else{
+                rear++;
+            }
+            numberOfElements++;
+        }
     }
 
     @Override
@@ -78,14 +79,40 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     }
 
     @Override
-    public Queue clone() throws {
-        Queue clone;
+    public ArrayQueue clone()  {
+        ArrayQueue<E> clone;
+        E element;
+ //       Method deepClone = null;
         try{
-             clone = (E[]) clone.invoke;
+            /*
+          clone = (ArrayQueue<E>) super.clone();
+
+          for(int i=0; i < maxCapacity; i++){
+              if(queue[i] != null) {
+                  deepClone = queue[i].getClass().getMethod("clone");
+                  Object[] args = new Object[0];
+                  clone.setElement((E) deepClone.invoke(queue[i], args), i);
+              }
+              else {
+
+
+              }
+          }
+          return clone;
+             */
+            clone = (ArrayQueue<E>) super.clone();
+            for(int i = 0; i < maxCapacity; i++){
+                if(queue[i] != null){
+                    element = (E) queue[i].getClass().getMethod("clone").invoke(queue[i]);
+                    clone.setElement(element,i);
+                }
+            }
+            return clone;
         }
-        catch(CloneNotSupportedException){
+        catch(Exception e){
             return null;
         }
+
     }
 
     @Override
@@ -101,10 +128,13 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
         return rear;
     }
 
-    public int getNumberOfElements() {
-        return numberOfElements;
+    public int getMaxCapacity() {
+        return maxCapacity;
     }
     public E getElement(int i){
         return queue[i];
+    }
+    public void setElement(E element, int i){
+        this.queue[i] = element;
     }
 }

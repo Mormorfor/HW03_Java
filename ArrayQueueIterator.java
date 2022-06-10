@@ -20,11 +20,12 @@ public class ArrayQueueIterator<E extends Cloneable> implements Iterator {
 
     @Override
     public Object next() {
-        if(currentElement == currentQueue.getNumberOfElements()){
+        Object element = currentQueue.getElement(currentElement);
+        if(currentElement == currentQueue.getMaxCapacity()){
             currentElement = 0;
         }
         else
             currentElement++;
-        return currentQueue.getElement(currentElement);
+        return element;
     }
 }
