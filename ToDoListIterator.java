@@ -7,7 +7,8 @@ public class ToDoListIterator implements Iterator<Task> {
     int i;
 
     ToDoListIterator(ToDoList toDoList){
-        this.toDoList = toDoList;
+        this.toDoList = toDoList.clone();
+        this.toDoList.sortTasks();
         upToDate = toDoList.getScanningDueDate();
         i = 0;
     }
@@ -23,7 +24,7 @@ public class ToDoListIterator implements Iterator<Task> {
                 return false;
         }
         else{
-            if( (i < size) && (toDoList.getElementByIndex(i).getDueDate().compareTo(upToDate) < 0))
+            if( (i < size) && (toDoList.getElementByIndex(i).getDueDate().compareTo(upToDate) <= 0))
                 return true;
             else
                 return false;

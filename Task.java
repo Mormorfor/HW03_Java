@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -6,7 +7,9 @@ public class Task implements Cloneable{
     private String description;
     private Date dueDate;
 
-
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
     public Task(String description, Date dueDate) {
         this.description = description;
         this.dueDate = dueDate;
@@ -14,7 +17,17 @@ public class Task implements Cloneable{
 
     @Override
     public String toString(){
-        return "(" + description + ", " + dueDate.toString() + ")";
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dueDate);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        String formattedMonth = String.format("%02d", month);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String formattedDay = String.format("%02d", day);
+
+        //calendar.getDisplayName();
+
+        return  description + ", " + formattedDay + "." + formattedMonth + "." + year;
     }
 
     @Override
@@ -30,7 +43,7 @@ public class Task implements Cloneable{
         if(!(otherTask instanceof Task))
             return false;
 
-        if(this.toString() == otherTask.toString())
+        if(this.toString().equals(otherTask.toString()))
             return true;
         else
             return false;
@@ -38,7 +51,7 @@ public class Task implements Cloneable{
 
     @Override
     public int hashCode(){
-        return 0;
+        return this.toString().hashCode();
     }
 
     public String getDescription() {
@@ -49,6 +62,4 @@ public class Task implements Cloneable{
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
-    }
 }

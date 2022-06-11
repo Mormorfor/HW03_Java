@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class ToDoList implements Cloneable, TaskIterable<Task> {
+    private final static int MILLISECONDS_TO_MINUTES = 60000;
+
     private LinkedList<Task> toDoList;
     private Date scanningDueDate;
 
@@ -12,13 +14,15 @@ public class ToDoList implements Cloneable, TaskIterable<Task> {
 
 
     public void addTask(Task task){
-        if(toDoList.contains(task)) {
-            throw new TaskAlreadyExistsException();
+        String description = task.getDescription();
+        for(Task oldTask : toDoList) {
+            if(description.compareTo(oldTask.getDescription()) == 0) {
+                throw new TaskAlreadyExistsException();
+            }
         }
-
         toDoList.add(task);
     }
-    private void sortTasks(){
+    public void sortTasks(){
         Comparator<Task> taskComparator = Comparator.comparing(Task::getDueDate).thenComparing(Task::getDescription);
         Collections.sort(toDoList,taskComparator);
     }
@@ -29,7 +33,9 @@ public class ToDoList implements Cloneable, TaskIterable<Task> {
         buildString.append("[");
         int size = toDoList.size();
         for(int i=0; i < size; i++){
+            buildString.append("(");
             buildString.append(toDoList.get(i).toString());
+            buildString.append(")");
             if( i < size - 1){
                 buildString.append(", ");
             }
@@ -57,16 +63,12 @@ public class ToDoList implements Cloneable, TaskIterable<Task> {
     public boolean equals (Object toDo){
         if(!(toDo instanceof ToDoList))
             return false;
-        ToDoList otherToDo = ((ToDoList) toDo).clone();
         int currentSize = toDoList.size();
-        if( currentSize!= otherToDo.toDoSize())
+        if( currentSize!= ((ToDoList) toDo).toDoSize())
             return false;
 
-        otherToDo.sortTasks();
-        this.sortTasks();
-
         for(int i = 0; i < currentSize; i++){
-            if(!(this.getElementByIndex(i).equals(otherToDo.getElementByIndex(i))))
+            if(!(((ToDoList) toDo).taskIsContained(this.getElementByIndex(i))))
                 return false;
         }
         return true;
@@ -74,14 +76,17 @@ public class ToDoList implements Cloneable, TaskIterable<Task> {
 
     @Override
     public int hashCode(){
-
-        return 0;
+        long dateSum = 0;
+        for(Task task : toDoList){
+            dateSum += task.getDueDate().getTime();
+            dateSum %= MILLISECONDS_TO_MINUTES;
+        }
+        return (int) dateSum;
     }
 
 
     @Override
     public Iterator iterator() {
-        sortTasks();
         return new ToDoListIterator(this);
     }
 
@@ -99,6 +104,10 @@ public class ToDoList implements Cloneable, TaskIterable<Task> {
     }
     public Task getElementByIndex(int i){
         return toDoList.get(i);
+    }
+
+    public boolean taskIsContained(Task task){
+        return toDoList.contains(task);
     }
 
 }
