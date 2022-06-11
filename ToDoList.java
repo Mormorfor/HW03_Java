@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class ToDoList implements Cloneable, TaskIterable {
+public class ToDoList implements Cloneable, TaskIterable<Task> {
     private LinkedList<Task> toDoList;
     private Date scanningDueDate;
 

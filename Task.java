@@ -49,6 +49,6 @@ public class Task implements Cloneable{
         return dueDate;
     }
 
-
-
+    public void setDueDate(Date dueDate) {
+    }
 }
