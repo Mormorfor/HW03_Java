@@ -118,7 +118,7 @@ public class ToDoList implements Cloneable, TaskIterable<Task> {
      * @return ToDoListIterator with current object as its parameter.
      */
     @Override
-    public Iterator iterator() {
+    public Iterator<Task> iterator() {
         return new ToDoListIterator(this);
     }
 

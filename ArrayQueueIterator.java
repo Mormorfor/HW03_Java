@@ -4,10 +4,9 @@ import java.util.Iterator;
  * an iterator class for ArrayQueue objects
  * @param <E> data type stored in the ArrayQueue
  */
-public class ArrayQueueIterator<E extends Cloneable> implements Iterator {
+public class ArrayQueueIterator<E extends Cloneable> implements Iterator<E> {
     private ArrayQueue<E> currentQueue;
     private int currentElement;
-    private int lastElement;
     private int remainingElements;
 
     /**
@@ -17,7 +16,6 @@ public class ArrayQueueIterator<E extends Cloneable> implements Iterator {
     ArrayQueueIterator(ArrayQueue <E> queue){
         currentQueue = queue;
         currentElement = currentQueue.getFront();
-        lastElement = currentQueue.getRear();
         remainingElements = currentQueue.size();
     }
 
@@ -40,8 +38,8 @@ public class ArrayQueueIterator<E extends Cloneable> implements Iterator {
      * @return next queue element 
      */
     @Override
-    public Object next() {
-        Object element = currentQueue.getElement(currentElement);
+    public E next() {
+        E element = currentQueue.getElement(currentElement);
         if(currentElement == currentQueue.getMaxCapacity() - 1){
             currentElement = 0;
         }

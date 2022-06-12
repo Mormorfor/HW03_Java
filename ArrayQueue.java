@@ -4,7 +4,7 @@ import java.util.Iterator;
  * A Queue implementation based on array
  * @param <E> data type to be stored in the queue
  */
-public class ArrayQueue <E extends Cloneable> implements Queue{
+public class ArrayQueue <E extends Cloneable> implements Queue<E>{
     private final int maxCapacity;
     private E [] queue;
     private int front, rear,numberOfElements;
@@ -108,7 +108,7 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
      * @return a cloned ArrayQueue
      */
     @Override
-    public ArrayQueue clone()  {
+    public ArrayQueue <E> clone()  {
         ArrayQueue<E> clone;
         E element;
 
@@ -145,14 +145,6 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
      */
     public int getFront() {
         return front;
-    }
-
-    /**
-     * get index of last rear element
-     * @return integer index of rear
-     */
-    public int getRear() {
-        return rear;
     }
 
     /**
