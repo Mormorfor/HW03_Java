@@ -1,10 +1,18 @@
-import java.lang.reflect.Method;
 import java.util.Iterator;
 
+/**
+ * A Queue implementation based on array
+ * @param <E> data type to be stored in the queue
+ */
 public class ArrayQueue <E extends Cloneable> implements Queue{
-    private int maxCapacity;
+    private final int maxCapacity;
     private E [] queue;
     private int front, rear,numberOfElements;
+
+    /**
+     * A constructor method
+     * @param maxCapacity a maximum capacity of a queue
+     */
     ArrayQueue (int maxCapacity){
         if(maxCapacity < 0){
             throw new NegativeCapacityException();
@@ -22,6 +30,11 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
         rear = 0;
         numberOfElements = 0;
     }
+
+    /**
+     * Add an element to the back of a queue
+     * @param element element to be added to the queue
+     */
     @Override
     public void enqueue(Cloneable element) {
         if(numberOfElements == maxCapacity){
@@ -39,6 +52,10 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
         }
     }
 
+    /**
+     * remove element from the front of the queue
+     * @return the removed element
+     */
     @Override
     public E dequeue() {
         E returnedElement;
@@ -59,6 +76,10 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
         return returnedElement;
     }
 
+    /**
+     * view the front element of the queue without removing it
+     * @return front element of the queue
+     */
     @Override
     public E peek() {
         if(numberOfElements == 0){
@@ -69,16 +90,29 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
         }
     }
 
+    /**
+     * current number of queued elements
+     * @return integer size of the queue
+     */
     @Override
     public int size() {
         return numberOfElements;
     }
 
+    /**
+     * Checks if queue is empty
+     * @return true - if empty
+     *         false - if not empty
+     */
     @Override
     public boolean isEmpty() {
         return numberOfElements == 0;
     }
 
+    /**
+     * create a deep clone of the queue
+     * @return a cloned ArrayQueue
+     */
     @Override
     public ArrayQueue clone()  {
         ArrayQueue<E> clone;
@@ -102,30 +136,63 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
 
     }
 
+    /**
+     * create an instance of ArrayQueueIterator
+     * @return ArrayQueueIterator with current object as its parameter.
+     */
     @Override
     public Iterator iterator() {
         return new ArrayQueueIterator(this);
     }
 
+    /**
+     * get index of front element
+     * @return integer index front
+     */
     public int getFront() {
         return front;
     }
+
+    /**
+     * get index of last rear element
+     * @return integer index of rear
+     */
     public int getRear() {
         return rear;
     }
+
+    /**
+     * get maximal capacity of the current ArrayQueue
+     * @return maximal queue capacity integer
+     */
     public int getMaxCapacity() {
         return maxCapacity;
     }
-    public E getElement(int i){
+
+    /**
+     * get element of the queue by i index
+     * @param i index of required element
+     * @return element of the queue at the i position
+     */
+    E getElement(int i){
         return queue[i];
     }
-    public void setElement(E element, int i){
+
+    /**
+     * sets an element at specific index
+     * @param element new element to be set
+     * @param i index at which to include
+     */
+    private void setElement(E element, int i){
         this.queue[i] = element;
     }
-    public void setQueue(E[] queue){
+
+    /**
+     * set a new queue array
+     * @param queue array of queue's elements
+     */
+    private void setQueue(E[] queue){
         this.queue = queue;
     }
-    public int getNumberOfElements() {
-        return numberOfElements;
-    }
+
 }
