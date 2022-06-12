@@ -32,8 +32,7 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     }
 
     /**
-     * Add an element to the back of a queue
-     * @param element element to be added to the queue
+     * {@inheritDoc}
      */
     @Override
     public void enqueue(Cloneable element) {
@@ -53,8 +52,7 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     }
 
     /**
-     * remove element from the front of the queue
-     * @return the removed element
+     * {@inheritDoc}
      */
     @Override
     public E dequeue() {
@@ -77,8 +75,7 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     }
 
     /**
-     * view the front element of the queue without removing it
-     * @return front element of the queue
+     * {@inheritDoc}
      */
     @Override
     public E peek() {
@@ -91,8 +88,7 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     }
 
     /**
-     * current number of queued elements
-     * @return integer size of the queue
+     * {@inheritDoc}
      */
     @Override
     public int size() {
@@ -100,9 +96,7 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
     }
 
     /**
-     * Checks if queue is empty
-     * @return true - if empty
-     *         false - if not empty
+     * {@inheritDoc}
      */
     @Override
     public boolean isEmpty() {
@@ -141,8 +135,8 @@ public class ArrayQueue <E extends Cloneable> implements Queue{
      * @return ArrayQueueIterator with current object as its parameter.
      */
     @Override
-    public Iterator iterator() {
-        return new ArrayQueueIterator(this);
+    public Iterator <E> iterator() {
+        return new ArrayQueueIterator<E>(this);
     }
 
     /**
